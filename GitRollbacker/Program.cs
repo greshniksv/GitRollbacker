@@ -20,8 +20,8 @@ namespace GitRollbacker
                 config = new Config
                 {
                     Location = @"c:\project",
-                    IgnoreItems = new[] { "test.dll", "*.txt" },
-                    RollbackItems = new[] { "*.dll", "*qq.txt" }
+                    IgnoreItems = new[] { "test.dll" },
+                    RollbackItems = new[] { ".*dll" }
                 };
 
                 var configData = JsonConvert.SerializeObject(config, Formatting.Indented);
@@ -41,7 +41,7 @@ namespace GitRollbacker
 
             using (var repo = new Repository(config.Location))
             {
-                Console.WriteLine(" > Add to revert collection:");
+                Console.WriteLine(" > Add to revert collection");
                 var listToRevert = new List<string>();
                 foreach (TreeEntryChanges changes in repo.Diff.Compare<TreeChanges>())
                 {
@@ -50,12 +50,11 @@ namespace GitRollbacker
                         Regex regex = new Regex(configRollbackItem);
                         if (regex.IsMatch(changes.Path))
                         {
-                            Console.WriteLine(changes.Path);
-                            listToRevert.Add(changes.Path);
-                        }
-                        else
-                        {
-                            Console.WriteLine("* {0}", changes.Path);
+                            if (!listToRevert.Contains(changes.Path))
+                            {
+                                Console.WriteLine(changes.Path);
+                                listToRevert.Add(changes.Path);
+                            }
                         }
                     }
                 }
