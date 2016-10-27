@@ -1,0 +1,11 @@
+{
+  "Location": "E:\\Project\\Portal Basic",
+  "RollbackItems": [
+    ".*.dll",
+	".*.pdb"
+  ],
+  "IgnoreItems": [
+    ".*PortalCore\\.UI\\\\bin.*",
+	".*App_Data\\\\Lib.*"
+  ]
+}
